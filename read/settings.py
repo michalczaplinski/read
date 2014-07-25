@@ -102,7 +102,6 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'staticfiles'),
 )
 
-
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 REGISTRATION_OPEN = True
 SITE_ID = 1
