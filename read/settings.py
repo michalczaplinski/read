@@ -90,7 +90,19 @@ USE_TZ = True
 
 ###### MY SETTINGS
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MEDIA_URL = '/media/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'staticfiles'),
+)
+
+
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 REGISTRATION_OPEN = True
 SITE_ID = 1
@@ -113,6 +125,9 @@ AUTHENTICATION_BACKENDS = (
 LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_AUTO_SIGNUP = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'SCOPE': ['email', 'publish_stream'],
