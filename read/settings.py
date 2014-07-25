@@ -38,12 +38,11 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    # registration
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.facebook',
-    # 'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.google',
 
 
 )
@@ -77,7 +76,7 @@ DATABASES = {
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'Europe/BErlin'
+TIME_ZONE = 'Europe/Berlin'
 
 USE_I18N = True
 
@@ -97,11 +96,8 @@ REGISTRATION_OPEN = True
 SITE_ID = 1
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    # Required by allauth template tags
     "django.core.context_processors.request",
     "django.contrib.auth.context_processors.auth",
-
-    # allauth specific context processors
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
 )
@@ -116,6 +112,7 @@ AUTHENTICATION_BACKENDS = (
 
 LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'SCOPE': ['email', 'publish_stream'],
