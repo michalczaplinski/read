@@ -1,29 +1,32 @@
-from django.db import models
 from django.contrib.auth.models import User
-from django import forms
+from django.db import models
+from allauth.account.models import EmailAddress
+from allauth.socialaccount.models import SocialAccount
+import hashlib
 
 
 class UserProfile(models.Model):
-    # This line is required. Links UserProfile to a User model instance.
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, related_name='profile')
 
-    # The additional attributes we wish to include.
-    website = models.URLField(blank=True)
-    # picture = models.ImageField(upload_to='profile_images', blank=True)
-
-    # Override the __unicode__() method to return out something meaningful!
     def __unicode__(self):
-        return self.user.username
-
-
-class UserForm(forms.ModelForm):
-    password = forms.CharField(widget=forms.PasswordInput())
+        return "{}'s profile".format(self.user.username)
 
     class Meta:
-        model = User
-        fields = ('username', 'email', 'password')
+        db_table = 'user_profile'
 
-class UserProfileForm(forms.ModelForm):
-    class Meta:
-        model = UserProfile
-        fields = ('website',)
+    def account_verified(self):
+        if self.user.is_authenticated:
+            result = EmailAddress.objects.filter(email=self.user.email)
+            if len(result):
+                return result[0].verified
+        return False
+
+    def profile_image_url(self):
+        fb_uid = SocialAccount.objects.filter(user_id=self.user.id, provider='facebook')
+
+        if len(fb_uid):
+            return "http://graph.facebook.com/{}/picture?width=40&height=40".format(fb_uid[0].uid)
+
+        return "http://www.gravatar.com/avatar/{}?s=40".format(hashlib.md5(self.user.email).hexdigest())
+
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
