@@ -90,17 +90,18 @@ USE_TZ = True
 
 ###### MY SETTINGS
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-MEDIA_URL = '/media/'
+# MEDIA_URL = '/media/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'staticfiles'),
+     os.path.join(BASE_DIR, 'staticfiles'),
 )
+
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 REGISTRATION_OPEN = True
@@ -121,7 +122,7 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/bookmarks/'
 SOCIALACCOUNT_QUERY_EMAIL = True
 SOCIALACCOUNT_AUTO_SIGNUP = True
 
@@ -131,5 +132,9 @@ SOCIALACCOUNT_PROVIDERS = {
     'facebook': {
         'SCOPE': ['email', 'publish_stream'],
         'METHOD': 'js_sdk'  # instead of 'oauth2'
+    },
+    'google': {
+        'SCOPE': ['profile'],
+        'AUTH_PARAMS': { 'access_type': 'online' }
     }
 }

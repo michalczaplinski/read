@@ -3,6 +3,8 @@ from django.db import models
 from allauth.account.models import EmailAddress
 from allauth.socialaccount.models import SocialAccount
 import hashlib
+from django.utils.timezone import now
+
 
 
 class UserProfile(models.Model):
@@ -29,4 +31,44 @@ class UserProfile(models.Model):
 
         return "http://www.gravatar.com/avatar/{}?s=40".format(hashlib.md5(self.user.email).hexdigest())
 
-User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+    User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
+
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    class Meta:
+        verbose_name = 'tag'
+        verbose_name_plural = 'tags'
+        ordering = ['name']
+
+    def __unicode__(self):
+        return self.name
+
+
+class Bookmark(models.Model):
+    url = models.URLField()
+    title = models.CharField('title', max_length=255)
+    description = models.TextField('description', blank=True)
+    date_created = models.DateTimeField('date created')
+    date_updated = models.DateTimeField('date updated')
+    owner = models.ForeignKey(User, related_name='bookmarks')
+    tags = models.ManyToManyField(Tag, blank=True)
+    domain = models.CharField('domain', max_length=80)
+
+    class Meta:
+        verbose_name = 'bookmark'
+        verbose_name_plural = 'bookmarks'
+        ordering = ['-date_created']
+
+    def __unicode__(self):
+        return '%s (%s)' % (self.title, self.url)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.date_created = now()
+        self.date_updated = now()
+        super(Bookmark, self).save(*args, **kwargs)
+
+
+

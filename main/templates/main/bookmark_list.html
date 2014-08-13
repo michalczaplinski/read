@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+
+<html>
+<head>
+    <title>{% block title %}
+    {% if request.user.is_authenticated %}
+        Logged In
+    {% else %}
+        Not Logged In
+    {% endif %}
+    {% endblock %}
+    </title>
+<!--
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %}" />
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+ -->
+</head>
+
+<body class="{% if request.user.is_authenticated %}logged-in{% else %}logged-out{% endif %}">
+<img src="{{ request.user.profile.profile_image_url }}"/>
+
+{% if request.user.is_authenticated %}
+    <a href="/accounts/logout/" class="pull-right">Logout</a>
+    {% if request.user.first_name or request.user.last_name %}
+        {{ request.user.first_name }} {{ request.user.last_name }}
+    {% else %}
+        {{ request.user.username }}
+    {% endif %}
+    {% if request.user.profile.account_verified %} (verified) {% else %} (unverified) {% endif %}
+
+{% else %}
+    <a href="/accounts/login/" class="pull-right">Login</a>
+{% endif %}
+
+<div>
+
+{% block heading %}
+<h2>Latest bookmarks</h2>
+{% endblock %}
+
+{% block content %}
+<ul class="list-unstyled">
+{% for bookmark in bookmarks %}
+    <li class="well">{% include "main/bookmark.html" %}</li>
+{% empty %}
+    <li>No bookmarks. :( </li>
+{% endfor %}
+</ul>
+{% endblock %}
+
+</div>
+</body>
+
+</html>

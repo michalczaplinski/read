@@ -1,0 +1,18 @@
+<a class="lead" href="{{ bookmark.url }}">{{ bookmark.title }}</a>
+{% if bookmark.description %}
+    <br>{{ bookmark.description|linebreaksbr }}
+{% endif %}
+
+{% if bookmark.tags.count %}
+    {% for tag in bookmark.tags.all %}
+        <span class="badge">{{ tag|lower }}</span>&nbsp;
+    {% endfor %}
+{% endif %}
+<span>{{ bookmark.date_created|date:"SHORT_DATE_FORMAT" }}</span>
+
+<button class="pull-right delete">delete</button>
+<button class="pull-right edit ">edit</button>
+<button class="pull-right share">share</button>
+
+
+
