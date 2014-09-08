@@ -1,4 +1,4 @@
-<a class="lead" href="{{ bookmark.url }}">{{ bookmark.title }}</a>
+<a class="lead" id="{{bookmark.id}}" href="{{ bookmark.url }}">{{ bookmark.title }}</a>
 {% if bookmark.description %}
     <br>{{ bookmark.description|linebreaksbr }}
 {% endif %}
@@ -10,9 +10,9 @@
 {% endif %}
 <span>{{ bookmark.date_created|date:"SHORT_DATE_FORMAT" }}</span>
 
-<button class="pull-right delete">delete</button>
-<button class="pull-right edit ">edit</button>
-<button class="pull-right share">share</button>
+<button class="pull-right delete" id="{{bookmark.id}}">delete</button>
+<button class="pull-right edit" id="{{bookmark.id}}">edit</button>
+<button class="pull-right share" id="{{bookmark.id}}">share</button>
 
 
 

@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 # from django.contrib.auth.models import User
 # from django.contrib.auth.views import login
+from django.http import HttpResponse
 from allauth.account.views import login
 from main.models import Bookmark
 from django.http import Http404
-
+import json
 
 def redirect_if_logged_in(f):
     def wrapper(request, *args, **kwargs):
@@ -31,3 +32,10 @@ def bookmark_list(request):
 @redirect_if_logged_in
 def custom_login(request, **kwargs):
     return login(request)
+
+def delete_bookmark(request, id=id):
+    bookmark = Bookmark.objects.get(pk = id)
+    bookmark.delete()
+    payload = {'success': True}
+    return HttpResponse(json.dumps(payload), content_type='application/json')
+

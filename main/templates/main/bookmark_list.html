@@ -4,20 +4,17 @@
 
 <html>
 <head>
-    <title>{% block title %}
-    {% if request.user.is_authenticated %}
-        Logged In
-    {% else %}
-        Not Logged In
-    {% endif %}
-    {% endblock %}
+
+    <title>
+        {% block title %}
+        {% if request.user.is_authenticated %}
+            Logged In
+        {% else %}
+            Not Logged In
+        {% endif %}
+        {% endblock %}
     </title>
-<!--
-    <link rel="stylesheet" type="text/css" href="{% static 'main/css/style.css' %}" />
-    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
- -->
+
 </head>
 
 <body class="{% if request.user.is_authenticated %}logged-in{% else %}logged-out{% endif %}">
@@ -53,6 +50,7 @@
 {% endblock %}
 
 </div>
+
 </body>
 
 </html>

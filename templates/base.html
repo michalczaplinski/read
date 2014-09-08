@@ -6,6 +6,7 @@
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
     <head>
+
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>READ - {% block title %}{% endblock %}</title>
@@ -13,11 +14,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="stylesheet" href="{% static "main/css/bootstrap.min.css" %}">
-
         <link rel="stylesheet" href="{% static "main/css/bootstrap-theme.min.css" %}">
         <link rel="stylesheet" href="{% static "main/css/main.css" %}">
 
         <script src="{% static "main/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js" %}"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="http://cdn.jsdelivr.net/jquery.cookie/1.4.1/jquery.cookie.min.js"></script>
+        <script src="{% static "main/js/jquery.djangocsrf-0.1.1.min.js" %}"></script>
+
     </head>
     <body class="{% if request.user.is_authenticated %}logged-in{% else %}logged-out{% endif %}">
     <img src="{{ request.user.profile.profile_image_url }}"/>
@@ -57,20 +61,36 @@
       </footer>
     </div> <!-- /container -->
 
-<!--    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script type="text/javascript">
 
-        <script>window.jQuery || document.write('<script src="{% static "main/js/vendor/jquery-1.10.1.min.js" %}"><\/script>')</script>
+        $(document).ready(function() {
 
-        <script src="{% static "main/js/vendor/bootstrap.min.js" %}"></script>
+            // $.djangocsrf( "enable" );
 
-        <script src="{% static "main/js/main.js" %}"></script> -->
+            var del_button = $('button.delete')
 
-
-        <script type="text/javascript">
-
-            $('button.delete').on('click', function(){
+            del_button.click(function(){
                 $(this).closest('li.well').fadeOut('300');
             });
+
+            del_button.click(function() {
+                console.log('delete script')
+                var id = $(this).attr('id');
+                console.log(id)
+
+                $.ajaxSetup({
+                    headers: { "X-CSRFToken": $.cookie('csrftoken') }
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "/bookmarks/delete/"+id +'/',
+                    data: { 'id':id },
+                });
+                return false;
+            });
+        });
+
         </script>
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->

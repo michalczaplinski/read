@@ -54,7 +54,8 @@ class Bookmark(models.Model):
     date_updated = models.DateTimeField('date updated')
     owner = models.ForeignKey(User, related_name='bookmarks')
     tags = models.ManyToManyField(Tag, blank=True)
-    domain = models.CharField('domain', max_length=80)
+    # like on reddit, eg. 'github.com'
+    domain = models.CharField('domain', max_length=80, blank=True)
 
     class Meta:
         verbose_name = 'bookmark'
