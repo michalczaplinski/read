@@ -1,5 +1,2 @@
 *.pyc
 .DS_Store
-*.sublime-project
-*.sublime-workspace
-manage.py
