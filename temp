@@ -1,4 +1,0 @@
-site-packages/allauth/templates/base.html
-site-packages/allauth/templates/account/signup.html
-site-packages/allauth/templates/account/login.html
-site-packages/allauth/templates/account/email_confirm.html
