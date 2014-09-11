@@ -25,7 +25,7 @@ def bookmark_list(request):
         bookmarks = Bookmark.objects.filter(owner=user)
     except Exception:
         # the user is not loged in or signed up
-        raise Http404
+        return redirect('/')
     context = {'bookmarks': bookmarks}
     return render(request, 'main/bookmark_list.html', context)
 
@@ -39,3 +39,5 @@ def delete_bookmark(request, id=id):
     payload = {'success': True}
     return HttpResponse(json.dumps(payload), content_type='application/json')
 
+def bookmarklet(request):
+    return render(request, 'main/inject.js')
