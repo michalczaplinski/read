@@ -1,10 +1,9 @@
 from django.contrib.auth.models import User
 from django.db import models
 from allauth.account.models import EmailAddress
-from allauth.socialaccount.models import SocialAccount
-import hashlib
+# from allauth.socialaccount.models import SocialAccount
 from django.utils.timezone import now
-
+import hashlib
 
 
 class UserProfile(models.Model):
@@ -23,13 +22,13 @@ class UserProfile(models.Model):
                 return result[0].verified
         return False
 
-    def profile_image_url(self):
-        fb_uid = SocialAccount.objects.filter(user_id=self.user.id, provider='facebook')
+    # def profile_image_url(self):
+    #     fb_uid = SocialAccount.objects.filter(user_id=self.user.id, provider='facebook')
 
-        if len(fb_uid):
-            return "http://graph.facebook.com/{}/picture?width=40&height=40".format(fb_uid[0].uid)
+    #     if len(fb_uid):
+    #         return "http://graph.facebook.com/{}/picture?width=40&height=40".format(fb_uid[0].uid)
 
-        return "http://www.gravatar.com/avatar/{}?s=40".format(hashlib.md5(self.user.email).hexdigest())
+    #     return "http://www.gravatar.com/avatar/{}?s=40".format(hashlib.md5(self.user.email).hexdigest())
 
     User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
 
@@ -65,11 +64,14 @@ class Bookmark(models.Model):
     def __unicode__(self):
         return '%s (%s)' % (self.title, self.url)
 
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.date_created = now()
-        self.date_updated = now()
-        super(Bookmark, self).save(*args, **kwargs)
+
+### CURRENTLY COMMENTED OUT BECAUSE WE WILL ORDINARILY
+### GET DATE AND TIME IN THE AJAX REQUEST FROM THE USER.
+    # def save(self, *args, **kwargs):
+    #     if not self.id:
+    #         self.date_created = now()
+    #     self.date_updated = now()
+    #     super(Bookmark, self).save(*args, **kwargs)
 
 
 

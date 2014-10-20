@@ -16,8 +16,7 @@ urlpatterns = patterns('',
     url(r'^accounts/login/$', views.custom_login),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout',
      {'next_page': '/'}),
-    url(r'^accounts/', include('allauth.urls')),
-    url(r'^bookmarklet/', views.bookmarklet)
+    url(r'^accounts/', include('allauth.urls'))
 )
 
 

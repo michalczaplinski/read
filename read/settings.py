@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-
-# Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -23,12 +21,10 @@ SECRET_KEY = '%pxg&@b@k@f5c5=!g$vgj1iu7b8&o!z1cf(@n91r9fl^as9gn9'
 DEBUG = True
 
 TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
 # Application definition
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,11 +36,9 @@ INSTALLED_APPS = (
     'main',
     'allauth',
     'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
-
-
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.facebook',
+    # 'allauth.socialaccount.providers.google',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,12 +51,9 @@ MIDDLEWARE_CLASSES = (
 )
 
 ROOT_URLCONF = 'read.urls'
-
 WSGI_APPLICATION = 'read.wsgi.application'
 
-
 # Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -81,33 +72,33 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
-
-###### MY SETTINGS
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'staticfiles'), )
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
 # MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 # MEDIA_URL = '/media/'
 
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-
-STATIC_URL = '/static/'
-
-STATICFILES_DIRS = (
-     os.path.join(BASE_DIR, 'staticfiles'),
-)
 
 
-TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'templates')]
+
+################### MY SETTINGS ######################
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+LOGIN_REDIRECT_URL = '/bookmarks/'
+LOGIN_URL = '/bookmarks/'
+
+
+### Allauth settings
+
 REGISTRATION_OPEN = True
-SITE_ID = 1
-
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     "django.contrib.auth.context_processors.auth",
     "allauth.account.context_processors.account",
     "allauth.socialaccount.context_processors.socialaccount",
 )
-
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
@@ -116,24 +107,34 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-LOGIN_REDIRECT_URL = '/bookmarks/'
-SOCIALACCOUNT_QUERY_EMAIL = True
-SOCIALACCOUNT_AUTO_SIGNUP = True
-
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
-SOCIALACCOUNT_PROVIDERS = {
-    'facebook': {
-        'SCOPE': ['email', 'publish_stream'],
-        'METHOD': 'js_sdk'  # instead of 'oauth2'
-    },
-    'google': {
-        'SCOPE': ['profile'],
-        'AUTH_PARAMS': { 'access_type': 'online' }
-    }
-}
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
 
 
+## SOCIALACCOUNT STUFF
+
+# SOCIALACCOUNT_QUERY_EMAIL = True
+# SOCIALACCOUNT_AUTO_SIGNUP = True
+# SOCIALACCOUNT_QUERY_EMAIL = True
+# SOCIALACCOUNT_EMAIL_REQUIRED = True
+# SOCIALACCOUNT_PROVIDERS = {
+#     'facebook': {
+#         'SCOPE': ['email', 'publish_stream'],
+#         'METHOD': 'js_sdk',
+#         'VERIFIED_EMAIL': False
+
+#     },
+#     'google': {
+#         'SCOPE': ['profile'],
+#         'AUTH_PARAMS': { 'access_type': 'online' }
+#     }
+# }
+
+SITE_ID = 1
+
+### Session settings
 SESSION_ENGINE = 'django.contrib.sessions.backends.cached_db'
 
 

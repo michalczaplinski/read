@@ -33,7 +33,7 @@
         {% else %}
             {{ request.user.username }}
         {% endif %}
-        {% if request.user.profile.account_verified %} (verified) {% else %} (unverified) {% endif %}
+        {% if request.user.user_profile.account_verified %} (verified) {% else %} (unverified) {% endif %}
 
     {% else %}
         <a href="/accounts/login/" class="pull-right">Login</a>
