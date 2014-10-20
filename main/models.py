@@ -12,8 +12,8 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return "{}'s profile".format(self.user.username)
 
-    class Meta:
-        db_table = 'user_profile'
+    # class Meta:
+    #     db_table = 'user_profile'
 
     def account_verified(self):
         if self.user.is_authenticated:

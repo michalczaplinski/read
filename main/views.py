@@ -3,9 +3,11 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from allauth.account.views import login
-from main.models import Bookmark
 from django.http import Http404
+from django.utils.timezone import make_aware, get_fixed_timezone
 import json, datetime, tldextract
+
+from main.models import Bookmark
 
 
 def redirect_if_logged_in(f):
@@ -50,17 +52,15 @@ def add_bookmark(request):
 
     if request.user.is_authenticated():
         user = request.user
-
         url = request.POST['url']
         title = request.POST['title']
 
+
         timestamp = request.POST['datetime']
-        # timezone = request.POST['timezone']
-
-        date = datetime.datetime.fromtimestamp(float(timestamp))
-
-        date_created = date
-        date_updated = date
+        # get timezone offset from request and turn it into tzinfo object
+        timezone = get_fixed_timezone(int(request.POST['timezone']))
+        date = datetime.datetime.fromtimestamp(float(timestamp), timezone)
+        date_created, date_updated = date, date
 
         ext = tldextract.extract(url)
         domain = '.'.join(ext[:2])

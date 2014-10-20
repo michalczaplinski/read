@@ -4,9 +4,6 @@ from django.conf import settings
 import allauth
 from main import views
 
-# from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-# from django.conf.urls.static import static
-
 
 admin.autodiscover()
 
@@ -18,15 +15,3 @@ urlpatterns = patterns('',
      {'next_page': '/'}),
     url(r'^accounts/', include('allauth.urls'))
 )
-
-
-#+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-
-# urlpatterns += staticfiles_urlpatterns()
-
-
-    # url(r'^accounts/', include('registration.backends.simple.urls')),
-
-# Examples:
-# url(r'^$', 'read.views.home', name='home'),
-#
